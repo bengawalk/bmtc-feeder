@@ -184,7 +184,7 @@ function App() {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center"
       }}>
-        <a className="download-button" href={image} download>Download</a>
+        <a className="download-button" download={image} href="">Download</a>
       </div>
     </>
   )
