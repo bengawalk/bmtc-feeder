@@ -154,11 +154,15 @@ function App() {
       // First open, has URL param
       setSelectedBus(currentParam);
     } else if(currentParam !== selectedBus) {
+      // Change of selectedBus when user clicks on item
       params.set("q", selectedBus || BUSES[0].name);
       const newUrl = window.location.origin
         + window.location.pathname
         + '?' + params.toString();
       window.history.pushState({path:newUrl},'',newUrl);
+    } else {
+      // First open of root URL
+      setSelectedBus(BUSES[0].name);
     }
   }, [selectedBus]);
 
