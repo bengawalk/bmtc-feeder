@@ -28,7 +28,7 @@ function App() {
     }
 
     const sidebarElement = document.getElementById(`bus-item-${selectedBus}`);
-    if(!elementInViewport(sidebarElement)) {
+    if(sidebarElement && !elementInViewport(sidebarElement)) {
       sidebarElement.scrollIntoView({ behavior: "smooth" });
     }
   }, [selectedBus]);
