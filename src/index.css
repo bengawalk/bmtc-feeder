@@ -33,6 +33,7 @@ h1 {
 }
 
 #sidebar {
+  width: 400px;
   flex-grow: 0;
   flex-shrink: 0;
   overflow: auto;
@@ -48,15 +49,6 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-li {
-  padding: 10px 20px;
-  cursor: pointer;
-}
-li.selected {
-  background-color: cornflowerblue;
-  color: #000000;
 }
 
 .download-button {
@@ -77,8 +69,38 @@ li.selected {
     flex-direction: column-reverse;
   }
   #sidebar {
+    width: 100%;
     height: 300px;
     border-right: 0;
     border-top: 1px solid #444444;
   }
+}
+
+.bus-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #444444;
+}
+
+.bus-item.selected {
+  background-color: cornflowerblue;
+  color: #000000;
+}
+
+.bus-item-name {
+  margin: 0;
+}
+
+.bus-item-route {
+  margin: 10px 0;
+}
+
+.bus-item-description {
+  margin: 0;
+  font-size: 14px;
+  color: #888888;
+}
+
+.bus-item.selected .bus-item-description {
+  color: #222222;
 }
