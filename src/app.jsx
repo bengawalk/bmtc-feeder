@@ -1,4 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
+import _ from "lodash";
+
 import {BUS_DATA} from "./utils/constants.js";
 import Map from "./components/map.jsx";
 import {elementInViewport} from "./utils/index.js";
@@ -14,7 +16,10 @@ function App() {
     const currentParam = params.get("q");
     if(currentParam && !selectedBus) {
       // First open, has URL param
-      setSelectedBus(currentParam);
+      if(_.some(BUS_DATA, {route_number: currentParam})) {
+        // Check if bus exists in the list. If not, there's no bus details to show so no point in selecting it
+        setSelectedBus(currentParam);
+      }
     }
   }, []);
 
