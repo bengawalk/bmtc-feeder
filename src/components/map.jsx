@@ -1,5 +1,6 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
+import IconLanguage from "../assets/language_icon.svg";
 
 import { getRoutesGeojson } from "../utils";
 import {
@@ -8,7 +9,7 @@ import {
   MAP_STYLE_ROUTE,
   MAPBOX_TOKEN, METRO_LINES_GEOJSON,
   METRO_STOPS_GEOJSON,
-  MAP_STYLE_METRO_STOPS,
+  MAP_STYLE_METRO_STOPS, LANGUAGES,
 } from "../utils/constants";
 
 mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -149,6 +150,40 @@ class Map extends React.PureComponent {
     });
   };
 
+  updateUserLocation = () => {
+    const { mapRef } = this.props;
+    if(!this.userLocationMarker) {
+      this.initLocationMarker();
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude: lat, longitude: lng } = position.coords;
+        this.userLocationMarker.setLngLat({ lat, lng });
+        mapRef.current.flyTo({
+          center: [lng, lat],
+          zoom: 13,
+          pitch: 0,
+          bearing: 0,
+          duration: 500,
+          essential: true,
+        });
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+  };
+
+  initLocationMarker = () => {
+    const { mapRef } = this.props;
+    // Show user location on the map
+    const el = document.createElement("div");
+    el.className = "user-location-indicator";
+    this.userLocationMarker = new mapboxgl.Marker(el)
+      .setLngLat({ lat: 0, lng: 0 })
+      .addTo(mapRef.current);
+  };
+
   addMapEvents = () => {
     const { mapRef } = this.props;
 
@@ -187,7 +222,19 @@ class Map extends React.PureComponent {
   };
 
   render() {
-    return <div id="map" ref={this.mapContainer} className="map-container" />;
+    const { setLang, lang } = this.props;
+    return <div id="map" ref={this.mapContainer} className="map-container">
+      <div id="action-btns-wrapper">
+        <button className="action-btn" onClick={this.updateUserLocation}>
+          <span className="material-symbols-outlined">
+            my_location
+          </span>
+        </button>
+        <button className="action-btn" onClick={() => setLang(lang === "en" ? "kn" : "en" )}>
+          <img src={IconLanguage} alt="Change language" />
+        </button>
+      </div>
+    </div>;
   }
 }
 

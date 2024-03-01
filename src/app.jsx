@@ -1,14 +1,19 @@
 import {useEffect, useRef, useState} from 'react';
 import _ from "lodash";
 
-import {BUS_DATA} from "./utils/constants.js";
+import {BUS_DATA, LANGUAGES} from "./utils/constants.js";
 import Map from "./components/map.jsx";
 import {elementInViewport} from "./utils/index.js";
 import BusesList from "./components/buses_list.jsx";
 import SelectedBusDetails from "./components/selected_bus_details.jsx";
+import appStorage from "./utils/storage.js";
+import i18n from "i18next";
 
 function App() {
   const [selectedBus, setSelectedBus] = useState("");
+  const [lang, setLang] = useState(
+    appStorage.getItem("lang") || LANGUAGES[0].code,
+  );
   const mapRef = useRef();
 
   useEffect(() => {
@@ -22,6 +27,12 @@ function App() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    appStorage.setItem("lang", lang);
+    document.documentElement.setAttribute("lang", lang);
+    i18n.changeLanguage(lang);
+  }, [lang]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -55,7 +66,7 @@ function App() {
           )
         }
       </div>
-      <Map mapRef={mapRef} busData={BUS_DATA} selectedBus={selectedBus} setSelectedBus={setSelectedBus} />
+      <Map lang={lang} setLang={setLang} mapRef={mapRef} busData={BUS_DATA} selectedBus={selectedBus} setSelectedBus={setSelectedBus} />
     </>
   )
 }

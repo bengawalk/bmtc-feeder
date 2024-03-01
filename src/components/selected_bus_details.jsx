@@ -1,17 +1,18 @@
 import React from "react";
 import _ from "lodash";
 import BusDetailsMetros from "./bus_details_metros.jsx";
+import i18n from "i18next";
+import {withTranslation} from "react-i18next";
 
-const SelectedBusDetails = ({ busData, selectedBus, setSelectedBus }) => {
+const SelectedBusDetails = ({ busData, selectedBus, setSelectedBus,  t }) => {
+  const details = _.find(busData, { route_number: selectedBus });
   const {
     route_number,
-    from,
-    to,
-    routings,
     timings_from,
     timings_to,
-    metros,
-  } = _.find(busData, { route_number: selectedBus });
+    metroDetails,
+  } = details;
+  const { language } = i18n;
   return (
     <>
       <div id="page-heading">
@@ -24,33 +25,33 @@ const SelectedBusDetails = ({ busData, selectedBus, setSelectedBus }) => {
       </div>
       <div id="selected-bus-content">
         <p id="fromto">
-          <span className="fromto-text">From:</span> {from} <br/>
-          <span className="fromto-text">To:</span> {to}
+          <span className="fromto-text">{t("from")}:</span> {details[`from_${language}`]} <br/>
+          <span className="fromto-text">{t("to")}:</span> {details[`to_${language}`]}
         </p>
         <p id="routings">
-          Via {routings}
+          {t("via")}: {details[`routings_${language}`]}
         </p>
         {
-          metros && (
+          _.size(metroDetails) > 0 && (
             <>
-              <h4>Metro stations on this route</h4>
-              <BusDetailsMetros list={metros} />
+              <h4>{t("metros")}</h4>
+              <BusDetailsMetros metroDetails={metroDetails} />
             </>
           )
         }
-        <h4>Start time from {from}</h4>
+        <h4>{i18n.t("start_times", { station: details[`from_${language}`] })}</h4>
         {
-          _.map(timings_from, t => (
-            <div className="time" key={t}>{t}</div>
+          _.map(timings_from, ti => (
+            <div className="time" key={ti}>{ti}</div>
           ))
         }
         {
           _.size(timings_to) > 0 && (
             <>
-              <h4>Start time from {to}</h4>
+              <h4>{i18n.t("start_times", { station: details[`to_${language}`] })}</h4>
               {
-                _.map(timings_to, t => (
-                  <div className="time" key={t}>{t}</div>
+                _.map(timings_to, ti => (
+                  <div className="time" key={ti}>{ti}</div>
                 ))
               }
             </>
@@ -62,4 +63,4 @@ const SelectedBusDetails = ({ busData, selectedBus, setSelectedBus }) => {
     ;
 };
 
-export default SelectedBusDetails;
+export default withTranslation()(SelectedBusDetails);

@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import {METRO_STOPS_DATA} from "../utils/constants.js";
+import i18n from "i18next";
 
 const MetroIcon = ({ line }) => {
   if(line === "green") {
@@ -19,15 +19,14 @@ const MetroIcon = ({ line }) => {
   }
 }
 
-const BusDetailsMetros = ({list}) => {
-  const metrosIndices = _.map(_.split(list, ","), m => _.toNumber(_.trim(m)));
-  const metroDetails = _.map(metrosIndices, id => _.find(METRO_STOPS_DATA, { id }));
+const BusDetailsMetros = ({ metroDetails }) => {
+  const { language } = i18n;
   return <p>
     {
       _.map(metroDetails, m => (
-        <span key={m.name} className="metro-list-item">
+        <span key={m.name_en} className="metro-list-item">
           <MetroIcon line={m.line} />
-          {m.name}</span>
+          {m[`name_${language}`]}</span>
       ))
     }
   </p>;
