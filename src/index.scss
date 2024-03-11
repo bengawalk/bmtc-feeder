@@ -42,6 +42,8 @@ h1 {
   flex-shrink: 0;
   overflow: auto;
   border-right: 1px solid #444444;
+  display: flex;
+  flex-direction: column;
 }
 
 #map {
@@ -121,6 +123,7 @@ ul {
 
 #selected-bus-content {
   padding: 8px 20px 20px;
+  flex-grow: 1;
 }
 
 #fromto {
@@ -255,4 +258,25 @@ p {
   animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-name: shadow;
+}
+
+#credits {
+  padding: 20px;
+  font-size: 0.8rem;
+  line-height: 1.8;
+  a {
+    color: inherit;
+  }
+}
+
+#noroute {
+  border: 1px solid #ad8869;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  padding: 10px 20px;
+  margin: 20px 0;
+  background-color: rgb(82, 66, 50);line-height: 1.8;
+  a {
+    color: inherit;
+  }
 }

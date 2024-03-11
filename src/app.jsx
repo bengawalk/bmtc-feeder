@@ -65,6 +65,18 @@ function App() {
             <BusesList busData={BUS_DATA} setSelectedBus={setSelectedBus} />
           )
         }
+        <div id="credits">
+          {
+            lang === "en" ? <>
+              By Team Bengawalk.<br />
+              Check out our other works at <a href="https://bengawalk.com/" target="_blank">bengawalk.com</a>
+            </> : <>
+              ಬೆಂಗಾವಾಕ್ ತಂಡದಿಂದ.<br/>
+              ನಮ್ಮ ಇತರ ಕೆಲಸ <a href="https://bengawalk.com/" target="_blank">bengawalk.com</a>
+            </>
+          }
+
+        </div>
       </div>
       <Map lang={lang} setLang={setLang} mapRef={mapRef} busData={BUS_DATA} selectedBus={selectedBus} setSelectedBus={setSelectedBus} />
     </>
